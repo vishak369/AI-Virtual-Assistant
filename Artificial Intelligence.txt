@@ -1,0 +1,92 @@
+import speech_recognition as sr
+import pyttsx3
+import pyaudio
+import wikipedia
+import pywhatkit
+from datetime import datetime
+
+now = datetime.now()
+current_time = now.strftime("%H"  "%M")
+cam = ["who", "when", "why", "what", "where"]
+
+
+listener = sr.Recognizer()
+on = pyttsx3.init()
+newVoiceRate = 129
+on.setProperty("rate", newVoiceRate)
+voices = on.getProperty('voices')
+on.setProperty('voice', voices[1].id)
+on.say("hello vishak what can i do for you")
+on.runAndWait()
+def talk(lm):
+    on.say(lm)
+    on.runAndWait()
+def take():
+    try:
+        with sr.Microphone() as source:
+            print("listening...")
+            voice = listener.listen(source)
+            com = listener.recognize_google(voice)
+
+    except:
+        pass
+    return com
+def vk():
+    command = take()
+    if 'happy' in command:
+        talk('yes iam happy')
+    elif 'what is your name' in command:
+        talk('my name is vk 3.7')
+    elif 'who created you' in command:
+        talk('vishak created me')
+  
+    elif 'play' in command:
+        song = command.replace('play', '')
+        talk('playing' + song)
+        pywhatkit.playonyt(song)
+    
+    elif 'hai' in command:
+        talk('hehehe')
+    
+    elif 'how are you' in command:
+        talk('iam fine thank you')
+    elif 'what is' in command:
+        dd = command.replace('what is', '')
+        woc = wikipedia.summary(dd, 1)
+        talk(woc)
+
+    elif 'time' in command:
+        time = datetime.now().strftime('%I:%M %p')
+        talk('the time is' + time)
+    elif 'can you talk faster' in command:
+        new = 180
+        on.setProperty("rate", new)
+        talk('yes i can talk faster is this fast ok for you vishak')
+
+    elif 'can you speak other languages' in command:
+        talk('sorry i dont know other languages,but i can learn')
+
+    elif 'get' in command:
+        nic = command.replace('what is', '')
+        wac = wikipedia.summary(nic, 1)
+        talk(wac)
+    elif 'can you change your voice' in command:
+        voices = on.getProperty('voices')
+        on.setProperty('voice', voices[0].id)
+        talk('okay,what about my new voice')
+    elif 'wow cool' in command:
+        talk('thank you')
+    
+
+    elif 'then tell me something' in command:
+        talk('can you please me more romantic vishak,it will be better')
+
+
+
+    elif 'who is ' in command:
+        who = command.replace('who is', '')
+        ohw = wikipedia.summary(who, 1)
+        talk(ohw)
+   
+
+while True: vk()
